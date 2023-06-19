@@ -1,5 +1,5 @@
 export const toastOptions = {
-  position: 'top-center',
+  position: 'top-left',
   autoClose: 1000,
   theme: 'dark',
 };
