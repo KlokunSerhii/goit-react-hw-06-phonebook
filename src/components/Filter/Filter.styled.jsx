@@ -3,8 +3,6 @@ import styled from 'styled-components';
 export const Label = styled.label`
   position: relative;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   margin: 0 15px;
   font-size: 24px;
@@ -18,7 +16,7 @@ export const Label = styled.label`
   }
 `;
 export const Input = styled.input`
-  width: 500px;
+  width: 370px;
   height: 25px;
   padding: 10px 45px;
   border-radius: 5px;
