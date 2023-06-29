@@ -1,4 +1,7 @@
 import { Formik, ErrorMessage } from 'formik';
+import { BsFillPersonPlusFill } from 'react-icons/bs';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { SignupSchema } from '../../options/validForm';
 import {
   Label,
@@ -9,9 +12,6 @@ import {
   ModalDiv,
   Title,
 } from './Modal.styled';
-import { BsFillPersonPlusFill } from 'react-icons/bs';
-import { useEffect } from 'react';
-import { createPortal } from 'react-dom';
 
 const modalRood = document.querySelector('#modal-root');
 

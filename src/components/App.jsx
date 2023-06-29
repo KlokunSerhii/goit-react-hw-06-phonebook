@@ -1,19 +1,22 @@
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
+import { useDispatch, useSelector } from 'react-redux';
+
 import 'react-toastify/dist/ReactToastify.css';
 import ContactList from './ContactList';
 import Modal from 'components/Modal/Modal';
 import Filter from './Filter';
 import { Div, TitleList, Button, DivFlex } from './App.styled';
 import { toastOptions } from '../options/toastOptions';
-import { useDispatch, useSelector } from 'react-redux';
-import { removeContacts, addContacts } from 'redux/contacts/slice';
+import { removeContacts, addContacts } from 'redux/contacts/sliceContacts';
+import { changeFilter } from 'redux/filters/sliceFilters';
+
 const App = () => {
-  const [filter, setFilter] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  const { contacts } = useSelector((state) => state.contacts);
+  const { filter } = useSelector(state => state.filter);
+  const { contacts } = useSelector(state => state.contacts);
   const dispatch = useDispatch();
 
   const toggleModal = () => {
@@ -24,15 +27,14 @@ const App = () => {
       element => element.name.toLowerCase() === name.toLowerCase()
     );
     if (!find) {
-      toast.success('Contact added', toastOptions);
-      dispatch(addContacts({ name, number }))
+      dispatch(addContacts({ name, number }));
       return;
     }
     toast.error(' Contact already in contacts.', toastOptions);
   };
 
-  const changeFilter = e => {
-    setFilter(e.currentTarget.value);
+  const handlerFilter = e => {
+    dispatch(changeFilter(e.currentTarget.value));
   };
 
   const visibleFilters = () => {
@@ -43,7 +45,7 @@ const App = () => {
   };
 
   const deleteContacts = id => {
-    dispatch(removeContacts(id))
+    dispatch(removeContacts(id));
     toast.error('Сontact deleted!', toastOptions);
   };
 
@@ -54,7 +56,7 @@ const App = () => {
         <Button type="submit" aria-label="add contact" onClick={toggleModal}>
           <BsFillPersonPlusFill />
         </Button>
-        <Filter onChange={changeFilter} value={filter} />
+        <Filter onChange={handlerFilter} value={filter} />
       </DivFlex>
       {showModal && <Modal onClose={toggleModal} onSubmit={handleSubmit} />}
 

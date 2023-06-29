@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Form, Field } from 'formik';
-export const Title = styled.h1`
+
+const Title = styled.h1`
   font-size: 36px;
 `;
 const Forma = styled(Form)`
@@ -89,4 +90,4 @@ const Button = styled.button`
   }
 `;
 
-export { Overlay, ModalDiv, Forma, Button, Input, Label };
+export { Overlay, ModalDiv, Forma, Button, Input, Label, Title };
