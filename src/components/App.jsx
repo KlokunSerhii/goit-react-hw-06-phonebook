@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { ToastContainer, toast } from 'react-toastify';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,30 +6,26 @@ import ContactList from './ContactList';
 import Modal from 'components/Modal/Modal';
 import Filter from './Filter';
 import { Div, TitleList, Button, DivFlex } from './App.styled';
-import { useLocalStorage } from '../huks/useLocalStorage';
 import { toastOptions } from '../options/toastOptions';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { removeContacts, addContacts } from 'redux/contacts/slice';
 const App = () => {
   const [filter, setFilter] = useState('');
-  const [contacts, setContacts] = useLocalStorage('contact', []);
   const [showModal, setShowModal] = useState(false);
+
+  const { contacts } = useSelector((state) => state.contacts);
+  const dispatch = useDispatch();
 
   const toggleModal = () => {
     setShowModal(!showModal);
   };
   const handleSubmit = ({ name, number }) => {
-    const newContacts = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
     const find = contacts.find(
       element => element.name.toLowerCase() === name.toLowerCase()
     );
     if (!find) {
       toast.success('Contact added', toastOptions);
-      setContacts(prevContacts => [newContacts, ...prevContacts]);
+      dispatch(addContacts({ name, number }))
       return;
     }
     toast.error(' Contact already in contacts.', toastOptions);
@@ -48,7 +43,7 @@ const App = () => {
   };
 
   const deleteContacts = id => {
-    setContacts(contacts.filter(contact => contact.id !== id));
+    dispatch(removeContacts(id))
     toast.error('Сontact deleted!', toastOptions);
   };
 
