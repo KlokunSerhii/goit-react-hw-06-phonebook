@@ -6,6 +6,7 @@ import { rootReducer } from './reducer';
 const persistConfig = {
   key: 'phonebook',
   storage,
+  blacklist: ['modal'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

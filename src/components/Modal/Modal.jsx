@@ -1,7 +1,10 @@
 import { Formik, ErrorMessage } from 'formik';
 import { BsFillPersonPlusFill } from 'react-icons/bs';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 import { createPortal } from 'react-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { SignupSchema } from '../../options/validForm';
 import {
   Label,
@@ -12,34 +15,46 @@ import {
   ModalDiv,
   Title,
 } from './Modal.styled';
+import { addContacts } from 'redux/contacts/sliceContacts';
+import { toastOptions } from '../../options/toastOptions';
+import { closeModal } from 'redux/modal/sliceModal';
 
 const modalRood = document.querySelector('#modal-root');
 
-function Modal({ onClose, onSubmit }) {
+function Modal() {
   const name = '';
   const number = '';
+  const { contacts } = useSelector(state => state.contacts);
+  const dispatch = useDispatch();
 
-  const handleSubmit = (values, { resetForm }) => {
-    onSubmit(values);
-    resetForm();
-    onClose();
+  const handleSubmit = ({ name, number }) => {
+    const find = contacts.find(
+      element => element.name.toLowerCase() === name.toLowerCase()
+    );
+    if (!find) {
+      dispatch(addContacts({ name, number }));
+      dispatch(closeModal());
+      toast.success('Contact added', toastOptions);
+      return;
+    }
+    toast.error(' Contact already in contacts.', toastOptions);
   };
 
   useEffect(() => {
     const handlerEscapeClick = e => {
       if (e.code === 'Escape') {
-        onClose();
+        dispatch(closeModal());
       }
     };
 
     window.addEventListener('keydown', handlerEscapeClick);
 
     return window.removeEventListener('keydown', handlerEscapeClick);
-  }, [onClose]);
+  }, [dispatch]);
 
   const handlerBackdropClick = e => {
     if (e.target === e.currentTarget || e.code === 'Escape') {
-      onClose();
+      dispatch(closeModal());
     }
   };
 
