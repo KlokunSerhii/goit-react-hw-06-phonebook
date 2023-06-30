@@ -13,13 +13,16 @@ const ContactList = () => {
 
   const dispatch = useDispatch();
 
+  const normalizedFilter = filter.toLowerCase();
   const filterContact = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+    contact.name.toLowerCase().includes(normalizedFilter)
   );
+
   const deleteContacts = (id, name )=> {
     dispatch(removeContacts(id));
     toast.error(`Сontact ${name} deleted!`, toastOptions);
   };
+
   return (
     <Ul>
       {filterContact.map(({ id, name, number }) => (
