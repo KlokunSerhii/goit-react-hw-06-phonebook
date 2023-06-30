@@ -34,10 +34,10 @@ function Modal() {
     if (!find) {
       dispatch(addContacts({ name, number }));
       dispatch(closeModal());
-      toast.success('Contact added', toastOptions);
+      toast.success(`Contact ${name} added`, toastOptions);
       return;
     }
-    toast.error(' Contact already in contacts.', toastOptions);
+    toast.error(`${name} already in contacts.`, toastOptions);
   };
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { BsFillPersonDashFill, BsPersonCircle } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { removeContacts } from 'redux/contacts/sliceContacts';
+import { removeContacts, visibleContacts } from 'redux/contacts/sliceContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
@@ -13,14 +13,12 @@ const ContactList = () => {
 
   const dispatch = useDispatch();
 
-  const normalizedFilter = filter.toLowerCase();
   const filterContact = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
-
-  const deleteContacts = id => {
+  const deleteContacts = (id, name )=> {
     dispatch(removeContacts(id));
-    toast.error('Сontact deleted!', toastOptions);
+    toast.error(`Сontact ${name} deleted!`, toastOptions);
   };
   return (
     <Ul>
@@ -29,7 +27,7 @@ const ContactList = () => {
           <BsPersonCircle />
           {name} : {number}
           <Button
-            onClick={() => deleteContacts(id)}
+            onClick={() => deleteContacts(id, name)}
             aria-label="Delete contact"
           >
             <BsFillPersonDashFill />
