@@ -1,6 +1,6 @@
 import { BsFillPersonDashFill, BsPersonCircle } from 'react-icons/bs';
 import PropTypes from 'prop-types';
-import { removeContacts, visibleContacts } from 'redux/contacts/sliceContacts';
+import { removeContacts } from 'redux/contacts/sliceContacts';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 
